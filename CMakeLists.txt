@@ -10,7 +10,8 @@ set(PATH ./src)
 set(SOURCE_FILES
         ${PATH}/ship.h
         ${PATH}/board.h
-        )
+        ${PATH}game.h
+        ${PATH}game.cpp)
 
 set(EXE_NAME main)
 

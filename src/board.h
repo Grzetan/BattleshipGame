@@ -10,5 +10,5 @@ public:
     Board();
     Board(std::vector<size_t>& shipSizes);
 
-    void shot(Coords& c);
+    void shot(const Coords& c);
 };

@@ -4,9 +4,10 @@
 #include <time.h>
 #include <vector>
 #include <algorithm>
+#include "ship.h"
 
-#define W 500
-#define H 500
+#define W 1000
+#define H 800
 
 int main(int argc, char *argv[]){
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -19,15 +20,29 @@ int main(int argc, char *argv[]){
                                        H,
                                        SDL_WINDOW_SHOWN);
 
-    SDL_Surface* background = SDL_GetWindowSurface(win);
-
     int close = 0;
     int x,y; // For mouse coordinates
     srand(time(NULL));
 
-    while (!close) {
+    // Setup renderer
+    SDL_Renderer* renderer = NULL;
+    renderer =  SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
 
-        SDL_UpdateWindowSurface(win);
+    while (!close) {
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        SDL_RenderClear(renderer);
+
+        SDL_Rect r;
+        r.x = 50;
+        r.y = 50;
+        r.w = 50;
+        r.h = 50;
+
+        SDL_SetRenderDrawColor( renderer, 0, 0, 255, 255 );
+
+        SDL_RenderFillRect( renderer, &r );
+
+        SDL_RenderPresent(renderer);
 
         // Events handling
         SDL_Event event;

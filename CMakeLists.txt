@@ -7,9 +7,14 @@ include_directories(${SDL2_INCLUDE_DIRS})
 
 set(PATH ./src)
 
+set(SOURCE_FILES
+        ${PATH}/ship.h
+        ${PATH}/board.h
+        )
+
 set(EXE_NAME main)
 
-add_executable(${EXE_NAME} ${PATH}/main.cpp)
+add_executable(${EXE_NAME} ${PATH}/main.cpp ${SOURCE_FILES})
 target_link_libraries(${EXE_NAME} ${SDL2_LIBRARIES})
 
 add_custom_command(TARGET ${EXE_NAME} POST_BUILD

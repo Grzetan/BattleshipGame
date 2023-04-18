@@ -1,13 +1,17 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_timer.h>
+#include <SDL2/SDL_ttf.h>
 #include <time.h>
 #include <vector>
 #include <algorithm>
-#include "ship.h"
 
 #define W 1000
 #define H 800
+
+void renderText(){
+
+}
 
 int main(int argc, char *argv[]){
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -27,6 +31,8 @@ int main(int argc, char *argv[]){
     // Setup renderer
     SDL_Renderer* renderer = NULL;
     renderer =  SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
+
+    TTF_Font* Sans = TTF_OpenFont("Sans.ttf", 24);
 
     while (!close) {
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);

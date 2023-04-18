@@ -6,8 +6,10 @@ Board::Board(){
 
 Board::Board(std::vector<size_t>& shipSizes){
     ships.reserve(shipSizes.size());
-    for(const auto& size : shipSizes)
-        ships.push_back(Ship(size));
+    for(int i=0; i<shipSizes.size(); i++){
+        ships.push_back(Ship(shipSizes[i]));
+        shipsInStorage.push_back(i);
+    }
 }
 
 void Board::shot(const Coords& c){

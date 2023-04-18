@@ -1,12 +1,6 @@
 #pragma once
 #include <iostream>
 #include <algorithm>
-#include "board.h"
-
-const Coords up {0, 1};
-const Coords down {0, -1};
-const Coords left {-1, 0};
-const Coords right {1, 0};
 
 struct Coords{
     int x;
@@ -17,6 +11,11 @@ struct Coords{
     bool operator==(const Coords& c);
     Coords operator+=(const Coords& c);
 };
+
+const Coords up {0, 1};
+const Coords down {0, -1};
+const Coords left {-1, 0};
+const Coords right {1, 0};
 
 class Ship{
     const size_t n_blocks;

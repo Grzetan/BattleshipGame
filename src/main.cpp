@@ -28,19 +28,13 @@ int main(int argc, char *argv[]){
     SDL_Renderer* renderer = NULL;
     renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
 
-    // SDL_Texture *texture1;
-    // SDL_Rect rect;
-
-    // get_text_and_rect(renderer, 200, 200, "Hello World", font, &texture1, &rect);
-
-    Game game(W, H, {1,1,1,1});
+    Game game(W, H, {1, 2, 3, 4, 5});
     bool close = false;
 
     while (!close) {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
-        // SDL_RenderCopy(renderer, texture1, NULL, &rect);
         game.renderFrame(renderer);
 
         SDL_RenderPresent(renderer);

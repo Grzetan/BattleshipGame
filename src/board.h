@@ -5,7 +5,7 @@
 #include <SDL2/SDL.h>
 #include "ship.h"
 
-#define CELL_COUNT 4
+#define CELL_COUNT 10
 
 class Board{
     static const size_t cellCount = CELL_COUNT, cellSize = 40;

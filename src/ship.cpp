@@ -38,13 +38,15 @@ void Ship::rotateLeft(){
 }
 
 void Ship::render(SDL_Renderer* renderer, size_t centerX, size_t centerY, size_t cellCount, size_t cellSize){
+    Coords endBlock = origin + direction*(n_blocks-1);
+    
     SDL_Rect r;
-    r.x = (centerX - cellCount * cellSize / 2) + origin.x * cellSize;
-    r.y = (centerY - cellCount * cellSize / 2) + (origin.y) * cellSize;
-    r.w = cellSize;
-    r.h = cellSize*n_blocks;
+    r.x = (centerX - cellCount * cellSize / 2) + std::min(origin.x, endBlock.x) * cellSize;
+    r.y = (centerY - cellCount * cellSize / 2) + std::min(origin.y, endBlock.y) * cellSize;
+    r.w = (centerX - cellCount * cellSize / 2) + std::max(origin.x, endBlock.x) * cellSize - r.x + cellSize;
+    r.h = (centerY - cellCount * cellSize / 2) + std::max(origin.y, endBlock.y) * cellSize - r.y + cellSize;
 
-    // std::cout << origin.x << ", " << origin.y << std::endl;
+    // std::cout << origin.x << ", " << origin.y << ": " << direction.x << ", " << direction.y << std::endl;
 
 
     // Set render color to blue ( rect will be rendered in this color )
@@ -57,9 +59,8 @@ void Ship::render(SDL_Renderer* renderer, size_t centerX, size_t centerY, size_t
 std::vector<Coords> Ship::getTakenCells(){
     std::vector<Coords> out;
 
-    Coords offset = direction;
     for(int i=0; i<n_blocks; i++){
-        out.push_back(origin + offset*i);
+        out.push_back(origin + direction*i);
     }
 
     return out;

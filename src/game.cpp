@@ -32,6 +32,7 @@ void Game::renderFrame(SDL_Renderer* renderer){
 
     const char* text = (player1Turn) ? "Player 1" : "Player 2";
     renderText(renderer, width / 2, 20, text, font, &textTop, &rect);
+    // std::cout << "===================" << std::endl;
     player1->render(renderer, player1Turn);
     player2->render(renderer, !player1Turn);
 }

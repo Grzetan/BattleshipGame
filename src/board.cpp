@@ -14,19 +14,30 @@ Board::Board(std::vector<size_t>& shipSizes, size_t centerX_, size_t centerY_) :
     for(int i=0; i<shipSizes.size(); i++){
         Ship* ship = new Ship(shipSizes[i]);
 
-        int startX = (int)((float)std::rand() / (float)RAND_MAX * cellCount);
-        int startY = (int)((float)std::rand() / (float)RAND_MAX * cellCount);
+        size_t startX = (size_t)((float)std::rand() / (float)RAND_MAX * cellCount);
+        size_t startY = (size_t)((float)std::rand() / (float)RAND_MAX * cellCount);
+        size_t startRotation = (size_t)((float)std::rand() / (float)RAND_MAX * 4);
+        for(int k=0; k<startRotation; k++){
+            ship->rotateLeft();
+        }
+
         Coords current(startX, startY);
         int j=0;
 
-        while(!ship->isValid() && j++<cellCount*cellCount){
+        while(!ship->isValid() && j++<cellCount*cellCount*4){
+            // Either rotate or move the ship
+            if(j%4 == startRotation){
+                current.increment(cellCount);
+            }else{
+                ship->rotateLeft();
+            }
+
             ship->move(current);
 
             ship->checkValid(board, cellCount);
-            current.increment(cellCount);
         }
 
-        if(j >= cellCount*cellCount){
+        if(j >= cellCount*cellCount*4){
             throw std::runtime_error("Board is too small for ships");
         }
 

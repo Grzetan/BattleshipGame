@@ -11,6 +11,8 @@
 #define H 800
 
 int main(int argc, char *argv[]){
+    srand(time(NULL));
+
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         printf("error initializing SDL: %s\n", SDL_GetError());
     }
@@ -31,7 +33,7 @@ int main(int argc, char *argv[]){
 
     // get_text_and_rect(renderer, 200, 200, "Hello World", font, &texture1, &rect);
 
-    Game game(W, H, {1,2,3});
+    Game game(W, H, {1,1,1,1});
     bool close = false;
 
     while (!close) {

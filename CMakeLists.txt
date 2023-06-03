@@ -15,6 +15,8 @@ set(SOURCE_FILES
         ${PATH}/board.cpp
         ${PATH}/game.h
         ${PATH}/game.cpp
+        ${PATH}/coords.h
+        ${PATH}/coords.cpp
 )
 
 set(EXE_NAME main)

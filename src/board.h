@@ -22,4 +22,6 @@ public:
     void shot(const Coords& c);
 
     void render(SDL_Renderer* renderer, bool visible);
+
+    bool boardValid();
 };

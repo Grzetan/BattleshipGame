@@ -75,11 +75,19 @@ void Board::render(SDL_Renderer* renderer, bool visible){
                     centerY + boardSize / 2);
     }
 
-    if(true){
+    if(visible){
         for(auto& ship : ships){
             ship->render(renderer, centerX, centerY, cellCount, cellSize);
         }
     }
 
+}
+
+bool Board::boardValid(){
+    for(auto& ship : ships){
+        if(!ship->isValid()) return false;
+    }
+
+    return true;
 }
 

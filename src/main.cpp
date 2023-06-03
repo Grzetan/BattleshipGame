@@ -30,6 +30,7 @@ int main(int argc, char *argv[]){
 
     Game game(W, H, {1, 2, 3, 4, 5});
     bool close = false;
+    int x, y;
 
     while (!close) {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -46,14 +47,13 @@ int main(int argc, char *argv[]){
                 case SDL_QUIT:
                     close = 1;
                     break;
+                case SDL_MOUSEBUTTONDOWN:
+                    SDL_GetMouseState(&x,&y);
+                    if(event.button.button == SDL_BUTTON_LEFT){
+                        game.click(x, y);
+                    }
+                    break;
             }
-            // SDL_GetMouseState(&x,&y);
-            // if(event.button.button == SDL_BUTTON_LEFT){
-
-            // }
-            // if(event.button.button == SDL_BUTTON_RIGHT){
-
-            // }
         }
         SDL_Delay(1000 / 60);
     }

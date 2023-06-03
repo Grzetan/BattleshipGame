@@ -6,8 +6,13 @@
 class Game{
     const size_t width, height;
     std::vector<size_t> shipSizes;
-    int player1Turn = true;
+    bool player1Turn = true;
+    bool player1Ready = false;
+    bool player2Ready = false;
     Board* player1, *player2;
+
+    size_t buttonX1, buttonY1, buttonX2, buttonY2;
+    bool buttonActive;
 
     TTF_Font* font = TTF_OpenFont("./fonts/VertigoFLF.ttf", 50);
     void renderText(SDL_Renderer *renderer, 
@@ -24,4 +29,5 @@ public:
 
     void renderFrame(SDL_Renderer* renderer);
 
+    void click(int x, int y);
 };

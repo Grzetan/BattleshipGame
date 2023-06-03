@@ -41,8 +41,8 @@ void Ship::render(SDL_Renderer* renderer, size_t centerX, size_t centerY, size_t
     Coords endBlock = origin + direction*(n_blocks-1);
     
     SDL_Rect r;
-    r.x = (centerX - cellCount * cellSize / 2) + std::min(origin.x, endBlock.x) * cellSize;
-    r.y = (centerY - cellCount * cellSize / 2) + std::min(origin.y, endBlock.y) * cellSize;
+    r.x = (centerX - cellCount * cellSize / 2) + std::min(origin.x, endBlock.x) * cellSize + 1;
+    r.y = (centerY - cellCount * cellSize / 2) + std::min(origin.y, endBlock.y) * cellSize + 1;
     r.w = (centerX - cellCount * cellSize / 2) + std::max(origin.x, endBlock.x) * cellSize - r.x + cellSize;
     r.h = (centerY - cellCount * cellSize / 2) + std::max(origin.y, endBlock.y) * cellSize - r.y + cellSize;
 

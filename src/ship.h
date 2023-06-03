@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <algorithm>
+#include <SDL2/SDL.h>
 
 struct Coords{
     int x;
@@ -37,4 +38,5 @@ public:
     void shot(const Coords& c);
     void rotateLeft();
     void rotateRight();
+    void render(SDL_Renderer* renderer);
 };

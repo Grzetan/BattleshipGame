@@ -5,28 +5,10 @@
 #include <time.h>
 #include <vector>
 #include <algorithm>
+#include "game.h"
 
-#define W 1000
+#define W 1200
 #define H 800
-
-void get_text_and_rect(SDL_Renderer *renderer, int x, int y, const char *text,
-        TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect) {
-    int text_width;
-    int text_height;
-    SDL_Surface *surface;
-    SDL_Color textColor = {255, 255, 255, 0};
-
-    surface = TTF_RenderText_Solid(font, text, textColor);
-    *texture = SDL_CreateTextureFromSurface(renderer, surface);
-    text_width = surface->w;
-    text_height = surface->h;
-    SDL_FreeSurface(surface);
-    rect->x = x;
-    rect->y = y;
-    rect->w = text_width;
-    rect->h = text_height;
-}
-
 
 int main(int argc, char *argv[]){
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -40,36 +22,24 @@ int main(int argc, char *argv[]){
                                        H,
                                        SDL_WINDOW_SHOWN);
 
-    int close = 0;
-    int x,y; // For mouse coordinates
-    srand(time(NULL));
-
     // Setup renderer
     SDL_Renderer* renderer = NULL;
-    renderer =  SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
+    renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
 
-    TTF_Font* font = TTF_OpenFont("./fonts/VertigoFLF.ttf", 50);
+    // SDL_Texture *texture1;
+    // SDL_Rect rect;
 
-    SDL_Texture *texture1;
-    SDL_Rect rect;
+    // get_text_and_rect(renderer, 200, 200, "Hello World", font, &texture1, &rect);
 
-    get_text_and_rect(renderer, 200, 200, "Hello World", font, &texture1, &rect);
+    Game game(W, H, {1,2,3});
+    bool close = false;
 
     while (!close) {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
-        SDL_Rect r;
-        r.x = 50;
-        r.y = 50;
-        r.w = 50;
-        r.h = 50;
-
-        SDL_SetRenderDrawColor( renderer, 0, 0, 255, 255 );
-
-        SDL_RenderFillRect( renderer, &r );
-
-        SDL_RenderCopy(renderer, texture1, NULL, &rect);
+        // SDL_RenderCopy(renderer, texture1, NULL, &rect);
+        game.renderFrame(renderer);
 
         SDL_RenderPresent(renderer);
 
@@ -81,13 +51,13 @@ int main(int argc, char *argv[]){
                     close = 1;
                     break;
             }
-            SDL_GetMouseState(&x,&y);
-            if(event.button.button == SDL_BUTTON_LEFT){
+            // SDL_GetMouseState(&x,&y);
+            // if(event.button.button == SDL_BUTTON_LEFT){
 
-            }
-            if(event.button.button == SDL_BUTTON_RIGHT){
+            // }
+            // if(event.button.button == SDL_BUTTON_RIGHT){
 
-            }
+            // }
         }
         SDL_Delay(1000 / 60);
     }

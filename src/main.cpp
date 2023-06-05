@@ -53,6 +53,15 @@ int main(int argc, char *argv[]){
                         game.click(x, y);
                     }
                     break;
+                case SDL_MOUSEBUTTONUP:
+                    if(event.button.button == SDL_BUTTON_LEFT){
+                        game.mouseup();
+                    }
+                    break;
+            }
+            SDL_GetMouseState(&x,&y);
+            if(event.button.button == SDL_BUTTON_LEFT){
+                game.mouseMove(x, y);
             }
         }
         SDL_Delay(1000 / 60);

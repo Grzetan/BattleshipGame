@@ -30,4 +30,8 @@ public:
     void renderFrame(SDL_Renderer* renderer);
 
     void click(int x, int y);
+
+    void mouseMove(int x, int y);
+
+    void mouseup();
 };

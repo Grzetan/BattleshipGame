@@ -4,6 +4,10 @@ bool Coords::operator==(Coords const& c){
     return x == c.x && y == c.y;
 }
 
+bool Coords::operator==(int p){
+    return x == p && y == p;
+}
+
 Coords Coords::operator+=(const Coords& c){
     return {x + c.x, y + c.y};
 }
@@ -32,3 +36,4 @@ void Coords::increment(size_t cellCount){
     }
 
 }
+

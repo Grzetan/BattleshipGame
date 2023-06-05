@@ -24,4 +24,6 @@ public:
     void render(SDL_Renderer* renderer, bool visible);
 
     bool boardValid();
+
+    Coords getClickedCell(int x, int y);
 };

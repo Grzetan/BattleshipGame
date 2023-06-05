@@ -91,3 +91,15 @@ bool Board::boardValid(){
     return true;
 }
 
+Coords Board::getClickedCell(int x, int y){
+    int relX = x - (centerX - cellCount * cellSize / 2);
+    int relY = y - (centerY - cellCount * cellSize / 2);
+
+    if(relX < 0 || relY < 0 || relX > cellCount * cellSize || relY > cellCount * cellSize)
+        return {-1, -1};
+
+
+    return {relX / (int)cellSize, relY / (int)cellSize};
+}
+
+

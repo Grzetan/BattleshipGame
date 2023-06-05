@@ -71,7 +71,6 @@ void Game::renderFrame(SDL_Renderer* renderer){
 void Game::click(int x, int y){
     // User clicked on the button
     if(x > buttonX1 && x < buttonX2 && y > buttonY1 && y < buttonY2 && buttonActive){
-        std::cout << "XD" << std::endl;
         if(player1Turn && !player1Ready){
             player1Turn = false;
             player1Ready = true;
@@ -80,6 +79,28 @@ void Game::click(int x, int y){
             player2Ready = true;
         }
     }
+
+    // check if user clicked on board
+    Coords firstBoardCell = player1->getClickedCell(x, y);
+    Coords secondBoardCell = player2->getClickedCell(x, y);
+
+    if(firstBoardCell == -1 && secondBoardCell == -1) return;
+
+
+
+    std::cout << "First board: " << firstBoardCell.x << ", " << firstBoardCell.y << std::endl;
+    // std::cout << "Second board: " << secondBoardCell.x << ", " << secondBoardCell.y << std::endl;
+
 }
+
+void Game::mouseMove(int x, int y){
+
+}
+
+void Game::mouseup(){
+    
+}
+
+
 
 

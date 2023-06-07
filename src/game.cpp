@@ -80,25 +80,22 @@ void Game::click(int x, int y){
         }
     }
 
-    // check if user clicked on board
-    Coords firstBoardCell = player1->getClickedCell(x, y);
-    Coords secondBoardCell = player2->getClickedCell(x, y);
-
-    if(firstBoardCell == -1 && secondBoardCell == -1) return;
-
-
-
-    std::cout << "First board: " << firstBoardCell.x << ", " << firstBoardCell.y << std::endl;
+    if(!player1Ready && player1Turn){
+        player1->selectShip(x, y);
+    }
     // std::cout << "Second board: " << secondBoardCell.x << ", " << secondBoardCell.y << std::endl;
 
 }
 
 void Game::mouseMove(int x, int y){
-
+    if(!player1Ready && player1Turn){
+        player1->mousemove(x, y);
+    }
 }
 
 void Game::mouseup(){
-    
+    player1->mouseup();
+    player2->mouseup();
 }
 
 

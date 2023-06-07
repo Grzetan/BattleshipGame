@@ -32,6 +32,7 @@ public:
     void shot(const Coords& c);
     void rotateLeft();
     void rotateRight();
+    Coords getOrigin();
     void render(SDL_Renderer* renderer, size_t centerX, size_t centerY, size_t cellCount, size_t cellSize);
     std::vector<Coords> getTakenCells();
     bool isValid();

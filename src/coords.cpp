@@ -5,7 +5,7 @@ bool Coords::operator==(Coords const& c){
 }
 
 bool Coords::operator==(int p){
-    return x == p && y == p;
+    return x == p || y == p;
 }
 
 Coords Coords::operator+=(const Coords& c){
@@ -15,6 +15,11 @@ Coords Coords::operator+=(const Coords& c){
 Coords Coords::operator+(const Coords& c){
     return {x + c.x, y + c.y};
 }
+
+Coords Coords::operator-(const Coords& c){
+    return {x - c.x, y - c.y};
+}
+
 
 Coords Coords::operator*=(int p){
     return {x * p, y * p};

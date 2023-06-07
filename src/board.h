@@ -14,6 +14,8 @@ class Board{
     std::vector<Ship*> ships;
     std::vector<Coords> hits;
     std::vector<CellType> board;
+    int selectedShip = -1;
+    Coords dragStart = {-1, -1};
 
 public:
     Board();
@@ -26,4 +28,10 @@ public:
     bool boardValid();
 
     Coords getClickedCell(int x, int y);
+
+    void selectShip(int x, int y);
+
+    void mouseup();
+
+    void mousemove(int x, int y);
 };

@@ -37,6 +37,10 @@ void Ship::rotateLeft(){
         direction = up;
 }
 
+Coords Ship::getOrigin(){
+    return origin;
+}
+
 void Ship::render(SDL_Renderer* renderer, size_t centerX, size_t centerY, size_t cellCount, size_t cellSize){
     Coords endBlock = origin + direction*(n_blocks-1);
     

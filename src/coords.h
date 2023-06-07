@@ -11,6 +11,7 @@ struct Coords{
     bool operator==(int p);
     Coords operator+=(const Coords& c);
     Coords operator+(const Coords& c);
+    Coords operator-(const Coords& c);
     Coords operator*=(int p);
     Coords operator*(int p);
 

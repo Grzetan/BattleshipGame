@@ -102,4 +102,61 @@ Coords Board::getClickedCell(int x, int y){
     return {relX / (int)cellSize, relY / (int)cellSize};
 }
 
+void Board::selectShip(int x, int y){
+    Coords cell = getClickedCell(x, y);
+    if(cell == -1) return;
+
+    for(int i=0; i<ships.size(); i++){
+        for(auto& c : ships[i]->getTakenCells()){
+            if(c == cell){
+                selectedShip = i;
+                dragStart = cell;
+                break;
+            }
+        }
+    }
+}
+
+void Board::mouseup(){
+    selectedShip = -1;
+}
+
+void Board::mousemove(int x, int y){
+    if(selectedShip == -1 || dragStart == -1) return;
+    Coords cell = getClickedCell(x, y);
+
+    Coords offset = cell - dragStart;
+    
+    std::cout << selectedShip << ", " << offset.x << ", " << offset.y << std::endl;
+
+    // Temporarly remove ship from board
+    for(auto& c : ships[selectedShip]->getTakenCells()){
+        board[c.y * cellCount + c.x] = EMPTY;
+    }
+
+    // Move X
+    ships[selectedShip]->move({dragStart.x + offset.x, dragStart.y});
+    ships[selectedShip]->checkValid(board, cellCount);
+    if(!ships[selectedShip]->isValid()){
+        ships[selectedShip]->move(dragStart);
+    }
+
+    Coords startingPos = ships[selectedShip]->getOrigin();
+
+    // Move Y
+    ships[selectedShip]->move({startingPos.x, dragStart.y + offset.y});
+    ships[selectedShip]->checkValid(board, cellCount);
+    if(!ships[selectedShip]->isValid()){
+        ships[selectedShip]->move(startingPos);
+    }
+
+    // Place ship back on board
+    for(auto& c : ships[selectedShip]->getTakenCells()){
+        board[c.y * cellCount + c.x] = SHIP;
+    }
+}
+
+
+
+
 

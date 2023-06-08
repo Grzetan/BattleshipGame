@@ -13,6 +13,9 @@ void Ship::shot(const Coords& c){
 
         currentCell += direction;
     }
+
+    if(hits.size() == n_blocks)
+        isAlive = false;
 }
 
 void Ship::rotateRight(){
@@ -54,7 +57,10 @@ void Ship::render(SDL_Renderer* renderer, size_t centerX, size_t centerY, size_t
 
 
     // Set render color to blue ( rect will be rendered in this color )
-    SDL_SetRenderDrawColor( renderer, 0, 0, 255, 128 );
+    if(isAlive)
+        SDL_SetRenderDrawColor( renderer, 0, 0, 255, 128 );
+    else
+        SDL_SetRenderDrawColor( renderer, 128, 0, 0, 128 );
 
     // Render rect
     SDL_RenderFillRect( renderer, &r );

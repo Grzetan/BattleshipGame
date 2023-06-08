@@ -80,8 +80,22 @@ void Game::click(int x, int y){
         }
     }
 
-    if(!player1Ready && player1Turn){
-        player1->selectShip(x, y);
+    if(player1Turn){
+        if(player1Ready){
+            if(player2->shot(x, y)){
+                player1Turn = false;
+            };
+        }else{
+            player1->selectShip(x, y);
+        }
+    }else{
+        if(player2Ready){
+            if(player1->shot(x, y)){
+                player1Turn = true;
+            }
+        }else{
+            player2->selectShip(x, y);
+        }
     }
     // std::cout << "Second board: " << secondBoardCell.x << ", " << secondBoardCell.y << std::endl;
 
@@ -90,6 +104,8 @@ void Game::click(int x, int y){
 void Game::mouseMove(int x, int y){
     if(!player1Ready && player1Turn){
         player1->mousemove(x, y);
+    }else if(!player2Ready && !player1Turn){
+        player2->mousemove(x, y);
     }
 }
 

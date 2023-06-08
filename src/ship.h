@@ -15,7 +15,7 @@ const std::vector<Coords> fieldsToCheck = { {-1,  1}, {0,  1}, {1,  1},
 
 class Ship{
     const size_t n_blocks;
-    bool is_alive;
+    bool isAlive;
     Coords origin;
     Coords direction;
     bool valid;
@@ -23,7 +23,7 @@ class Ship{
 
 public:
     Ship(size_t size) : n_blocks(size), 
-                        is_alive(true),
+                        isAlive(true),
                         origin({0, 0}),
                         direction(up),
                         valid(false){};

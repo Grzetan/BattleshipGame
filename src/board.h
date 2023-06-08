@@ -15,13 +15,12 @@ class Board{
     std::vector<Coords> hits;
     std::vector<CellType> board;
     int selectedShip = -1;
-    Coords dragStart = {-1, -1};
 
 public:
     Board();
     Board(std::vector<size_t>& shipSizes, size_t centerX_, size_t centerY_);
 
-    void shot(const Coords& c);
+    bool shot(int x, int y);
 
     void render(SDL_Renderer* renderer, bool visible);
 

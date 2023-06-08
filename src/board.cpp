@@ -50,11 +50,17 @@ Board::Board(std::vector<size_t>& shipSizes, size_t centerX_, size_t centerY_) :
     }
 }
 
-void Board::shot(const Coords& c){
+bool Board::shot(int x, int y){
+    Coords c = getClickedCell(x, y);
+
+    if(c == -1) return false;
+
     for(auto& ship : ships)
         ship->shot(c);
 
-    hits.push_back(c);
+    board[c.y*cellCount + c.x] = HIT;
+
+    return true;
 }
 
 void Board::render(SDL_Renderer* renderer, bool visible){
@@ -81,6 +87,26 @@ void Board::render(SDL_Renderer* renderer, bool visible){
         }
     }
 
+    SDL_SetRenderDrawColor( renderer, 255, 0, 0, 255 );
+
+    for(int x=0; x<cellCount; x++){
+        for(int y=0; y<cellCount; y++){
+            if(board[y*cellCount + x] == HIT){
+                std::cout << x << ", " << y << std::endl;
+                SDL_RenderDrawLine(renderer, 
+                                    centerX - boardSize / 2 + x * cellSize, 
+                                    centerY - boardSize / 2 + y * cellSize,
+                                    centerX - boardSize / 2 + (x+1) * cellSize,  
+                                    centerY - boardSize / 2 + (y+1) * cellSize);
+                SDL_RenderDrawLine(renderer, 
+                                    centerX - boardSize / 2 + x * cellSize, 
+                                    centerY - boardSize / 2 + (y+1) * cellSize,
+                                    centerX - boardSize / 2 + (x+1) * cellSize, 
+                                    centerY - boardSize / 2 + y * cellSize);
+ 
+            }
+        }
+    }
 }
 
 bool Board::boardValid(){
@@ -110,7 +136,6 @@ void Board::selectShip(int x, int y){
         for(auto& c : ships[i]->getTakenCells()){
             if(c == cell){
                 selectedShip = i;
-                dragStart = cell;
                 break;
             }
         }
@@ -122,12 +147,12 @@ void Board::mouseup(){
 }
 
 void Board::mousemove(int x, int y){
-    if(selectedShip == -1 || dragStart == -1) return;
+    if(selectedShip == -1) return;
     Coords cell = getClickedCell(x, y);
 
-    Coords offset = cell - dragStart;
-    
-    std::cout << selectedShip << ", " << offset.x << ", " << offset.y << std::endl;
+    Coords startingPos = ships[selectedShip]->getOrigin();
+
+    Coords offset = cell - startingPos;
 
     // Temporarly remove ship from board
     for(auto& c : ships[selectedShip]->getTakenCells()){
@@ -135,25 +160,27 @@ void Board::mousemove(int x, int y){
     }
 
     // Move X
-    ships[selectedShip]->move({dragStart.x + offset.x, dragStart.y});
-    ships[selectedShip]->checkValid(board, cellCount);
-    if(!ships[selectedShip]->isValid()){
-        ships[selectedShip]->move(dragStart);
-    }
-
-    Coords startingPos = ships[selectedShip]->getOrigin();
-
-    // Move Y
-    ships[selectedShip]->move({startingPos.x, dragStart.y + offset.y});
+    ships[selectedShip]->move({startingPos.x + offset.x, startingPos.y});
     ships[selectedShip]->checkValid(board, cellCount);
     if(!ships[selectedShip]->isValid()){
         ships[selectedShip]->move(startingPos);
+    }
+
+    startingPos = ships[selectedShip]->getOrigin();
+
+    // Move Y
+    ships[selectedShip]->move({startingPos.x, startingPos.y + offset.y});
+    ships[selectedShip]->checkValid(board, cellCount);
+    if(!ships[selectedShip]->isValid()){
+        ships[selectedShip]->move(startingPos);
+        ships[selectedShip]->checkValid(board, cellCount);
     }
 
     // Place ship back on board
     for(auto& c : ships[selectedShip]->getTakenCells()){
         board[c.y * cellCount + c.x] = SHIP;
     }
+
 }
 
 

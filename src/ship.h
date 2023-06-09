@@ -19,7 +19,6 @@ class Ship{
     Coords origin;
     Coords direction;
     bool valid;
-    std::vector<size_t> hits; // Which part of ship was hit 1...n_blocks
 
 public:
     Ship(size_t size) : n_blocks(size), 
@@ -29,7 +28,7 @@ public:
                         valid(false){};
 
     void move(const Coords& c);
-    void shot(const Coords& c);
+    void shot(std::vector<CellType>& board, size_t cellCount);
     void rotateLeft();
     void rotateRight();
     Coords getOrigin();
@@ -37,4 +36,5 @@ public:
     std::vector<Coords> getTakenCells();
     bool isValid();
     void checkValid(const std::vector<CellType>& board, size_t cellCount);
+    bool isShipAlive();
 };

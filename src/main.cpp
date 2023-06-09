@@ -28,7 +28,7 @@ int main(int argc, char *argv[]){
     SDL_Renderer* renderer = NULL;
     renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
 
-    Game game(W, H, {1, 2, 3, 4, 5});
+    Game game(W, H, {2,2,3});
     bool close = false;
     int x, y;
 

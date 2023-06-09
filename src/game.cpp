@@ -1,6 +1,6 @@
 #include "game.h"
 
-Game::Game(size_t width_, size_t height_, std::vector<size_t> shipSizes) : width(width_), height(height_){
+Game::Game(size_t width_, size_t height_, std::vector<size_t> shipSizes_) : width(width_), height(height_), shipSizes(shipSizes_){
     player1 = new Board(shipSizes, width_*0.25, height_ / 2);
     player2 = new Board(shipSizes, width_*0.75, height_ / 2);
 
@@ -44,33 +44,25 @@ void Game::renderFrame(SDL_Renderer* renderer){
     player1->render(renderer, player1Turn);
     player2->render(renderer, !player1Turn);
 
-    if(!player1Ready || !player2Ready){
+    if(!player1Ready || !player2Ready || restartGame){
         SDL_Rect r;
         r.x = buttonX1;
         r.y = buttonY1;
         r.w = buttonX2 - buttonX1;
         r.h = buttonY2 - buttonY1;
 
-        Board* player = (player1Turn) ? player1 : player2;
-
-        buttonActive = player->boardValid();
-
-        if(!buttonActive){
-            SDL_SetRenderDrawColor(renderer, 128, 0, 0, 128);
-        }else{
-            SDL_SetRenderDrawColor(renderer, 0, 128, 0, 128);
-        }
+        SDL_SetRenderDrawColor(renderer, 0, 128, 0, 128);
 
         // Render rect
         SDL_RenderFillRect(renderer, &r);
-        renderText(renderer, width / 2, height-140, "Ready", font, &textTop, &rect);
+        renderText(renderer, width / 2, height-140, (restartGame) ? "Reset Game" : "Ready", font, &textTop, &rect);
 
     }
 }
 
 void Game::click(int x, int y){
     // User clicked on the button
-    if(x > buttonX1 && x < buttonX2 && y > buttonY1 && y < buttonY2 && buttonActive){
+    if(x > buttonX1 && x < buttonX2 && y > buttonY1 && y < buttonY2){
         if(player1Turn && !player1Ready){
             player1Turn = false;
             player1Ready = true;
@@ -78,12 +70,25 @@ void Game::click(int x, int y){
             player1Turn = true;
             player2Ready = true;
         }
+
+        if(restartGame){
+            restartGame = false;
+            player1Turn = true;
+            player1Ready = false;
+            player2Ready = false;
+            player1->resetBoard(shipSizes);
+            player2->resetBoard(shipSizes);
+            return;
+        }
     }
+
+    if(restartGame) return;
 
     if(player1Turn){
         if(player1Ready){
             if(player2->shot(x, y)){
                 player1Turn = false;
+                restartGame = player2->isGameOver();
             };
         }else{
             player1->selectShip(x, y);
@@ -92,13 +97,12 @@ void Game::click(int x, int y){
         if(player2Ready){
             if(player1->shot(x, y)){
                 player1Turn = true;
+                restartGame = player1->isGameOver();
             }
         }else{
             player2->selectShip(x, y);
         }
     }
-    // std::cout << "Second board: " << secondBoardCell.x << ", " << secondBoardCell.y << std::endl;
-
 }
 
 void Game::mouseMove(int x, int y){

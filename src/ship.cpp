@@ -4,18 +4,16 @@ void Ship::move(const Coords& c){
     origin = c;
 }
 
-void Ship::shot(const Coords& c){
-    Coords currentCell = origin;
-    for(int i=0; i<n_blocks; i++){
-        // If shot cell is part of a ship and this part of a ship wasn't already hit
-        if(currentCell == c && std::find(hits.begin(), hits.end(), i) == hits.end())
-            hits.push_back(i);
-
-        currentCell += direction;
+void Ship::shot(std::vector<CellType>& board, size_t cellCount){
+    std::vector<Coords> taken = getTakenCells();
+    
+    bool alive = false;
+    for(auto& cell : taken){
+        if(board[cell.y*cellCount+cell.x] != HIT)
+            alive = true;
     }
 
-    if(hits.size() == n_blocks)
-        isAlive = false;
+    isAlive = alive;
 }
 
 void Ship::rotateRight(){
@@ -106,3 +104,8 @@ void Ship::checkValid(const std::vector<CellType>& board, size_t cellCount){
 
     valid = valid_;
 }
+
+bool Ship::isShipAlive(){
+    return isAlive;
+}
+

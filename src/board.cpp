@@ -10,6 +10,10 @@ Board::Board(std::vector<size_t>& shipSizes, size_t centerX_, size_t centerY_) :
         board.push_back(EMPTY);    
     }
     
+    setupShips(shipSizes);
+}
+
+void Board::setupShips(std::vector<size_t>& shipSizes){
     ships.reserve(shipSizes.size());
     for(int i=0; i<shipSizes.size(); i++){
         Ship* ship = new Ship(shipSizes[i]);
@@ -53,12 +57,12 @@ Board::Board(std::vector<size_t>& shipSizes, size_t centerX_, size_t centerY_) :
 bool Board::shot(int x, int y){
     Coords c = getClickedCell(x, y);
 
-    if(c == -1) return false;
-
-    for(auto& ship : ships)
-        ship->shot(c);
+    if(c == -1 || board[c.y*cellCount + c.x] == HIT) return false;
 
     board[c.y*cellCount + c.x] = HIT;
+
+    for(auto& ship : ships)
+        ship->shot(board, cellCount);
 
     return true;
 }
@@ -92,7 +96,6 @@ void Board::render(SDL_Renderer* renderer, bool visible){
     for(int x=0; x<cellCount; x++){
         for(int y=0; y<cellCount; y++){
             if(board[y*cellCount + x] == HIT){
-                std::cout << x << ", " << y << std::endl;
                 SDL_RenderDrawLine(renderer, 
                                     centerX - boardSize / 2 + x * cellSize, 
                                     centerY - boardSize / 2 + y * cellSize,
@@ -180,10 +183,24 @@ void Board::mousemove(int x, int y){
     for(auto& c : ships[selectedShip]->getTakenCells()){
         board[c.y * cellCount + c.x] = SHIP;
     }
+    std::cout << ships[selectedShip]->getOrigin().x << ", " << ships[selectedShip]->getOrigin().y << std::endl;
 
 }
 
+void Board::resetBoard(std::vector<size_t>& shipSizes){
+    ships = {};
 
+    for(int i=0; i<CELL_COUNT*CELL_COUNT; i++){
+        board[i] = EMPTY;    
+    }
 
+    setupShips(shipSizes);
+}
 
+bool Board::isGameOver(){
+    for(auto& ship : ships){
+        if(ship->isShipAlive()) return false;
+    }
 
+    return true;
+}

@@ -16,6 +16,8 @@ class Board{
     std::vector<CellType> board;
     int selectedShip = -1;
 
+    void setupShips(std::vector<size_t>& shipSizes);
+
 public:
     Board();
     Board(std::vector<size_t>& shipSizes, size_t centerX_, size_t centerY_);
@@ -33,4 +35,8 @@ public:
     void mouseup();
 
     void mousemove(int x, int y);
+
+    void resetBoard(std::vector<size_t>& shipSizes);
+
+    bool isGameOver();
 };

@@ -183,8 +183,6 @@ void Board::mousemove(int x, int y){
     for(auto& c : ships[selectedShip]->getTakenCells()){
         board[c.y * cellCount + c.x] = SHIP;
     }
-    std::cout << ships[selectedShip]->getOrigin().x << ", " << ships[selectedShip]->getOrigin().y << std::endl;
-
 }
 
 void Board::resetBoard(std::vector<size_t>& shipSizes){
